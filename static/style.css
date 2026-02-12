@@ -1,0 +1,229 @@
+/* -------------------------------
+   Global reset & dark theme
+---------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background: radial-gradient(circle at 20% 30%, #0c0f14, #07090c);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    color: #e8edf2;
+    line-height: 1.5;
+}
+
+.app-wrapper {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* -------------------------------
+   Navbar – sleek, glassmorphism
+---------------------------------- */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(18, 22, 28, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(64, 72, 88, 0.4);
+    border-radius: 28px;
+    box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.6);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #f0f4fa;
+}
+
+.brand-icon {
+    color: #9bb8ff;
+    filter: drop-shadow(0 2px 6px rgba(90, 140, 255, 0.2));
+}
+
+.navbar-status {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.9rem;
+}
+
+.live-badge {
+    background: rgba(34, 197, 94, 0.12);
+    color: #4ade80;
+    padding: 0.35rem 1rem;
+    border-radius: 60px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.3px;
+    border: 1px solid rgba(74, 222, 128, 0.25);
+    backdrop-filter: blur(4px);
+}
+
+.timestamp {
+    color: #9aa6b5;
+    font-weight: 450;
+}
+
+/* -------------------------------
+   Dashboard – 3‑card grid
+---------------------------------- */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 5;
+}
+
+/* -------------------------------
+   Metric card – soft, elevated dark card
+---------------------------------- */
+.metric-card {
+    background: linear-gradient(145deg, #171c24, #12161c);
+    border: 1px solid #2a313c;
+    border-radius: 36px;
+    padding: 1.8rem 1.8rem 2rem;
+    box-shadow: 0 25px 40px -20px rgba(0, 0, 0, 0.7),
+                inset 0 1px 2px rgba(255, 255, 255, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.3s ease, border-color 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-card:hover {
+    transform: translateY(-6px);
+    border-color: #3e4756;
+    box-shadow: 0 32px 55px -18px #000000d0,
+                inset 0 1px 3px rgba(255, 255, 255, 0.08);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.8rem;
+}
+
+.card-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.card-icon {
+    color: #b2ceff;
+    opacity: 0.9;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 530;
+    color: #d6e3f0;
+    letter-spacing: -0.2px;
+}
+
+.percentage-value {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(to right, #e6edf5, #cbd5e8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 12px rgba(140, 180, 255, 0.3);
+}
+
+/* -------------------------------
+   Progress bar – animated & smooth
+---------------------------------- */
+.progress-section {
+    margin-top: 0.4rem;
+    width: 100%;
+}
+
+.progress-track {
+    background: #222933;
+    border-radius: 40px;
+    height: 10px;
+    width: 100%;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+    overflow: hidden;
+    margin-bottom: 0.65rem;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 40px;
+    background: linear-gradient(90deg, #6f9eff, #5079e1);
+    box-shadow: 0 0 12px #3d6eff77;
+    width: 0%;
+    transition: width 0.65s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+}
+
+.progress-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: #8e9cad;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    padding: 0 0.2rem;
+}
+
+/* -------------------------------
+   Decorative background element (soft)
+---------------------------------- */
+.system-bg-decoration {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    opacity: 0.45;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* -------------------------------
+   Responsive fine-tuning
+---------------------------------- */
+@media (max-width: 750px) {
+    body { padding: 1.5rem 1rem; }
+    .navbar { flex-direction: column; align-items: flex-start; }
+    .navbar-status { width: 100%; justify-content: space-between; }
+    .metric-card { padding: 1.5rem; }
+    .percentage-value { font-size: 1.8rem; }
+}
+
+@media (max-width: 480px) {
+    .dashboard { gap: 1.5rem; }
+    .metric-card { border-radius: 28px; }
+    .brand-icon { width: 24px; height: 24px; }
+    .navbar-brand span { font-size: 1.2rem; }
+}
+
+/* subtle custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0e1217; }
+::-webkit-scrollbar-thumb { background: #3c4552; border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: #556071; }
