@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 
 app = Flask(__name__)
 
@@ -6,8 +6,7 @@ devices = {}
 
 @app.route("/")
 def home():
-    return "Server Running Successfully ✅"
-
+    return render_template("index.html")
 
 @app.route("/report", methods=["POST"])
 def report():
@@ -18,11 +17,9 @@ def report():
 
     return {"status": "received"}
 
-
 @app.route("/devices")
 def get_devices():
     return jsonify(devices)
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

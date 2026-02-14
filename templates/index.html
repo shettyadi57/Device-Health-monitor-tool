@@ -3,121 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Device Health Monitor · Dashboard</title>
-   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-   
+    <title>Device Health Monitor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
 </head>
 <body>
-    <div class="app-wrapper">
-        <!-- top navigation -->
-        <nav class="navbar">
-            <div class="navbar-brand">
-                <svg class="brand-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="2" y="2" width="20" height="20" rx="4" stroke="currentColor" stroke-width="1.5"/>
-                    <path d="M7 16L10 10L14 14L18 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="7.5" cy="15.5" r="1.5" fill="currentColor"/>
-                    <circle cx="16.5" cy="9.5" r="1.5" fill="currentColor"/>
-                </svg>
-                <span>Device Health Monitor</span>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">🖥️</span>
+                <span class="logo-text">DevMon</span>
             </div>
-            <div class="navbar-status">
-                <span class="live-badge">● LIVE</span>
-                <span class="timestamp">updated just now</span>
-            </div>
-        </nav>
-
-        <!-- main dashboard grid -->
-        <main class="dashboard">
-            <!-- CPU CARD -->
-            <div class="metric-card">
-                <div class="card-header">
-                    <div class="card-title-wrapper">
-                        <svg class="card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                            <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M8 8H16V16H8V8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                            <path d="M12 12L12 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                        </svg>
-                        <span class="card-title">CPU Usage</span>
-                    </div>
-                    <span class="percentage-value" id="cpuPercent">45%</span>
-                </div>
-                <div class="progress-section">
-                    <div class="progress-track">
-                        <div class="progress-fill" id="cpuFill" style="width: 45%;"></div>
-                    </div>
-                    <div class="progress-stats">
-                        <span>system</span>
-                        <span>user</span>
-                    </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-view="devices">
+                    <span class="nav-icon">📊</span>
+                    <span>Devices</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">🔔</span>
+                    <span>Alerts</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="system-status">
+                    <span class="status-dot live"></span>
+                    <span>API Connected</span>
                 </div>
             </div>
+        </aside>
 
-            <!-- RAM CARD -->
-            <div class="metric-card">
-                <div class="card-header">
-                    <div class="card-title-wrapper">
-                        <svg class="card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                            <rect x="3" y="7" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M7 11V15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <path d="M12 11V15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <path d="M17 11V15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                        </svg>
-                        <span class="card-title">RAM Usage</span>
-                    </div>
-                    <span class="percentage-value" id="ramPercent">32%</span>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="back-btn" id="backBtn" style="display: none;">← Back</button>
+                    <h1 class="page-title" id="pageTitle">Device Dashboard</h1>
                 </div>
-                <div class="progress-section">
-                    <div class="progress-track">
-                        <div class="progress-fill" id="ramFill" style="width: 32%;"></div>
+                <div class="header-right">
+                    <div class="live-indicator">
+                        <span class="live-dot"></span>
+                        <span id="refreshStatus">Live · Auto-refresh 3s</span>
                     </div>
-                    <div class="progress-stats">
-                        <span>used</span>
-                        <span>cache</span>
-                    </div>
+                    <div class="timestamp" id="timestamp">Just now</div>
                 </div>
-            </div>
-            <span id="cpu-value">0%</span>
-            <span id="ram-value">0%</span>
-            <span id="disk-value">0%</span>
+            </header>
 
-
-            <!-- DISK CARD -->
-            <div class="metric-card">
-                <div class="card-header">
-                    <div class="card-title-wrapper">
-                        <svg class="card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                            <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/>
-                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
-                            <path d="M12 5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            <path d="M12 16V19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                        </svg>
-                        <span class="card-title">Disk Usage</span>
-                    </div>
-                    <span class="percentage-value" id="diskPercent">78%</span>
-                </div>
-                <div class="progress-section">
-                    <div class="progress-track">
-                        <div class="progress-fill" id="diskFill" style="width: 78%;"></div>
-                    </div>
-                    <div class="progress-stats">
-                        <span>main</span>
-                        <span>scratch</span>
-                    </div>
-                </div>
+            <!-- Content Area -->
+            <div class="content" id="content">
+                <!-- Dynamic content loaded via JS -->
             </div>
         </main>
+    </div>
 
-        <!-- subtle system illustration (purely aesthetic) -->
-        <div class="system-bg-decoration">
-            <svg width="240" height="120" viewBox="0 0 240 120" fill="none">
-                <circle cx="200" cy="30" r="12" stroke="rgba(140,140,255,0.15)" stroke-width="1.5"/>
-                <circle cx="200" cy="30" r="6" fill="rgba(140,140,255,0.1)"/>
-                <path d="M60 70 L100 40 L160 60 L200 40" stroke="rgba(140,140,255,0.1)" stroke-width="1.5" stroke-dasharray="4 4"/>
-            </svg>
-        </div>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-
 </body>
 </html>
