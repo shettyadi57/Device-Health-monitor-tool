@@ -1,27 +1,28 @@
-from flask import Flask, jsonify, render_template
-import psutil
+from flask import Flask, request, jsonify
 
-# ✅ First create app
 app = Flask(__name__)
 
-# ✅ Then define routes
+devices = {}
+
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return "Server Running Successfully ✅"
 
-@app.route("/system")
-def system_data():
-    cpu = psutil.cpu_percent(interval=1)
-    ram = psutil.virtual_memory().percent
-    disk = psutil.disk_usage('/').percent
-    
-    return jsonify({
-        "cpu": cpu,
-        "ram": ram,
-        "disk": disk
-    })
 
-# ✅ Run app at the end
+@app.route("/report", methods=["POST"])
+def report():
+    data = request.json
+    device_id = data.get("device_id")
+
+    devices[device_id] = data
+
+    return {"status": "received"}
+
+
+@app.route("/devices")
+def get_devices():
+    return jsonify(devices)
+
+
 if __name__ == "__main__":
-    app.run(debug=True)
-  
+    app.run(host="0.0.0.0", port=5000, debug=True)
