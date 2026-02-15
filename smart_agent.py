@@ -8,7 +8,8 @@ from collections import defaultdict
 import win32gui
 import win32process
 
-SERVER_URL = "http://10.52.98.216:5000"
+SERVER_URL = "http://127.0.0.1:5000/report"
+
 
 device_id = socket.gethostname()
 
