@@ -8,7 +8,7 @@ from collections import defaultdict
 import win32gui
 import win32process
 
-SERVER_URL = "http://127.0.0.1:5000/report"
+SERVER_URL = "http://127.0.0.1:5001/report"
 
 
 device_id = socket.gethostname()
@@ -44,8 +44,7 @@ while True:
     }
 
     try:
-        requests.post(SERVER_URL, json=data)
-    except:
-        print("Server not reachable")
-
-    time.sleep(5)
+      response = requests.post(SERVER_URL, json=data)
+      print("Sent successfully:", response.status_code)
+    except Exception as e:
+     print("Error:", e)
