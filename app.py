@@ -1,25 +1,27 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, jsonify, render_template
+import psutil
+import socket
 
 app = Flask(__name__)
 
-devices = {}
+device_name = socket.gethostname()
+
+def get_system_data():
+    return {
+        "device": device_name,
+        "cpu": psutil.cpu_percent(interval=1),
+        "ram": psutil.virtual_memory().percent,
+        "disk": psutil.disk_usage('/').percent,
+        "battery": psutil.sensors_battery().percent if psutil.sensors_battery() else None
+    }
 
 @app.route("/")
 def home():
     return render_template("index.html")
 
-@app.route("/report", methods=["POST"])
-def report():
-    data = request.json
-    device_id = data.get("device_id")
-
-    devices[device_id] = data
-
-    return {"status": "received"}
-
-@app.route("/devices")
-def get_devices():
-    return jsonify(devices)
+@app.route("/metrics")
+def metrics():
+    return jsonify(get_system_data())
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001, debug=True)
+    app.run(debug=True)

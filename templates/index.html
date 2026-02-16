@@ -1,75 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Device Health Monitor</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <title>PC Health Monitor</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #0f172a;
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
 
+        .card {
+            background: #1e293b;
+            padding: 20px;
+            margin: 15px auto;
+            width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.4);
+        }
+
+        h1 { color: #38bdf8; }
+    </style>
 </head>
 <body>
-    <div class="app">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="logo">
-                <span class="logo-icon">🖥️</span>
-                <span class="logo-text">DevMon</span>
-            </div>
-            <nav class="nav-menu">
-                <a href="#" class="nav-item active" data-view="devices">
-                    <span class="nav-icon">📊</span>
-                    <span>Devices</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon">🔔</span>
-                    <span>Alerts</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon">⚙️</span>
-                    <span>Settings</span>
-                </a>
-            </nav>
-            <div class="sidebar-footer">
-                <div class="system-status">
-                    <span class="status-dot live"></span>
-                    <span>API Connected</span>
-                </div>
-            </div>
-        </aside>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Header -->
-            <header class="header">
-                <div class="header-left">
-                    <button class="back-btn" id="backBtn" style="display: none;">← Back</button>
-                    <h1 class="page-title" id="pageTitle">Device Dashboard</h1>
-                </div>
-                <div class="header-right">
-                    <div class="live-indicator">
-                        <span class="live-dot"></span>
-                        <span id="refreshStatus">Live · Auto-refresh 3s</span>
-                    </div>
-                    <div class="timestamp" id="timestamp">Just now</div>
-                </div>
-            </header>
+<h1>💻 PC Health Monitor</h1>
 
-            <!-- Content Area -->
-            <div class="content" id="content">
-                <!-- Dynamic content loaded via JS -->
-            </div>
-        </main>
-    </div>
+<div class="card">CPU: <span id="cpu">0</span>%</div>
+<div class="card">RAM: <span id="ram">0</span>%</div>
+<div class="card">Disk: <span id="disk">0</span>%</div>
+<div class="card">Battery: <span id="battery">N/A</span></div>
 
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-spinner"></div>
-    </div>
+<script>
+async function loadData() {
+    const res = await fetch("/metrics");
+    const data = await res.json();
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    document.getElementById("cpu").textContent = data.cpu;
+    document.getElementById("ram").textContent = data.ram;
+    document.getElementById("disk").textContent = data.disk;
+    document.getElementById("battery").textContent =
+        data.battery ? data.battery + "%" : "N/A";
+}
+
+setInterval(loadData, 2000);
+loadData();
+</script>
+
 </body>
 </html>
